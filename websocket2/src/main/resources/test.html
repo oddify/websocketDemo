@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stock Prices</title>
+</head>
+<body>
+    <h1>Real-Time Stock Prices</h1>
+    <div id="stockPrice">Waiting for stock prices...</div>
+
+    <script>
+        const socket = new WebSocket("ws://localhost:8080/ws/stocks");
+
+        socket.onmessage = function(event) {
+            const stockPriceElement = document.getElementById("stockPrice");
+            stockPriceElement.textContent = event.data; // Update the text content with the new stock price
+        };
+
+        socket.onclose = function() {
+            const stockPriceElement = document.getElementById("stockPrice");
+            stockPriceElement.textContent = "Connection closed.";
+        };
+    </script>
+</body>
+</html>
